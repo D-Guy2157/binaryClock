@@ -1,6 +1,15 @@
 #include "clock.h"
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+void clear_screen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+}
 
 // Helper function to display the menu
 void display_menu() {
@@ -11,6 +20,7 @@ void display_menu() {
     printf("4. Decrement time by one second\n");
     printf("5. Display time (standard and binary)\n");
     printf("6. Exit\n");
+    printf("7. Start the automatic clock\n");
     printf("Enter your choice: ");
 }
 
@@ -50,6 +60,18 @@ uint32_t get_binary_input() {
     return binary_value;
 }
 
+void automatic_clock(clock_t *cloc) {
+    while (1) {
+        clear_screen();
+        display_time(cloc);
+        display_binary(cloc);
+
+        increment_time(cloc);
+
+        sleep(1);
+    }
+}
+
 int main() {
     clock_t myClock;
     int choice;
@@ -71,6 +93,8 @@ int main() {
                 printf("Enter seconds (0-59): ");
                 scanf("%hhu", &seconds);
                 set_time(&myClock, hours, minutes, seconds);
+                clear_screen();
+                
                 printf("Time set to: ");
                 display_time(&myClock);
                 break;
@@ -78,12 +102,16 @@ int main() {
             case 2:
                 binary_time = get_binary_input();
                 set_binary(&myClock, binary_time);
+                clear_screen();
+
                 printf("Time set using binary input: ");
                 display_time(&myClock);
                 break;
             
             case 3:
                 increment_time(&myClock);
+                clear_screen();
+
                 printf("Time after incrementing: ");
                 display_time(&myClock);
                 display_binary(&myClock);
@@ -91,12 +119,16 @@ int main() {
 
             case 4:
                 decrement_time(&myClock);
+                clear_screen();
+
                 printf("Time after decrementing: ");
                 display_time(&myClock);
                 display_binary(&myClock);
                 break;
 
             case 5:
+                clear_screen();
+
                 printf("Current time: ");
                 display_time(&myClock);
                 printf("Binary representation: ");
@@ -104,11 +136,18 @@ int main() {
                 break;
 
             case 6:
+                clear_screen();
+
                 printf("Exiting program.\n");
                 exit(0);
                 break;
 
+            case 7:
+                automatic_clock(&myClock);
+                break;
+
             default:
+                clear_screen();
                 printf("Invalid choice! Please try again.\n");
                 break;
         }
