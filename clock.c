@@ -20,11 +20,27 @@ void set_binary(clock_t *cloc, uint32_t binary_time) {
 }
 
 void increment_time(clock_t *cloc) {
-    cloc->seconds++;
+    if (++cloc->seconds >= 60) {
+        cloc->seconds = 0;
+        if (++cloc->minutes >= 60) {
+            cloc->minutes = 0;
+            if (++cloc->hours >= 24) {
+                cloc->hours = 0;
+            }
+        }
+    }
 }
 
 void decrement_time(clock_t *cloc) {
-    cloc->seconds--;
+    if (cloc->seconds-- == 0) {
+        cloc->seconds = 59;
+        if (cloc->minutes-- == 0) {
+            cloc->minutes = 59;
+            if (cloc->hours-- == 0) {
+                cloc->hours = 23;
+            }
+        }
+    }
 }
 
 void display_time(const clock_t *cloc) {
@@ -39,12 +55,10 @@ void print_binary(uint32_t value, int bits) {
 }
 
 void display_binary(const clock_t *cloc) {
-    printf("Binary Time: ");
-    printf("Hours: ");
     print_binary(cloc->hours, 5);
-    printf(" Minutes: ");
+    printf(" ");
     print_binary(cloc->minutes, 6);
-    printf(" Seconds: ");
+    printf(" ");
     print_binary(cloc->seconds, 6);
     printf("\n");
 }
