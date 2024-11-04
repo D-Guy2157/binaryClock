@@ -10,9 +10,15 @@ typedef struct clock {
     uint8_t hours : 5;
 } clock_t;
 
-void init_clock(clock_t *cloc, uint8_t hour, uint8_t min, uint8_t sec);
+void init_clock(clock_t *cloc);
+
+void set_time(clock_t *cloc, uint8_t hour, uint8_t min, uint8_t sec);
+void set_binary(clock_t *cloc, uint32_t binary_time);
+
 void increment_time(clock_t *cloc);
 void decrement_time(clock_t *cloc);
+
 void display_time(const clock_t *cloc);
+void display_binary(const clock_t *cloc);
 
 #endif // CLOCK_H
