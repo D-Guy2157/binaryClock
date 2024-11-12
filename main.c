@@ -11,6 +11,12 @@ void clear_screen() {
 #endif
 }
 
+// Helper function to move the cursor to a specified location on the screen
+void move_cursor_to_position(int row, int col) {
+    printf("\033[%d;%dH", row, col); // Move the cursor to (row, col)
+    fflush(stdout);
+}
+
 // Helper function to display the menu
 void display_menu() {
     printf("\n--- Binary Clock Menu ---\n");
@@ -61,8 +67,9 @@ uint32_t get_binary_input() {
 }
 
 void automatic_clock(Clock_t *cloc) {
+    clear_screen();
     while (1) {
-        clear_screen();
+        move_cursor_to_position(1, 1);
         display_time(cloc);
         display_binary(cloc);
 
