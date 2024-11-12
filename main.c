@@ -60,7 +60,7 @@ uint32_t get_binary_input() {
     return binary_value;
 }
 
-void automatic_clock(clock_t *cloc) {
+void automatic_clock(Clock_t *cloc) {
     while (1) {
         clear_screen();
         display_time(cloc);
@@ -73,7 +73,7 @@ void automatic_clock(clock_t *cloc) {
 }
 
 int main() {
-    clock_t myClock;
+    Clock_t myClock;
     int choice;
     uint8_t hours, minutes, seconds;
     uint32_t binary_time;
