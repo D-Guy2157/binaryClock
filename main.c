@@ -27,6 +27,7 @@ void display_menu() {
     printf("5. Display time (standard and binary)\n");
     printf("6. Exit\n");
     printf("7. Start the automatic clock\n");
+    printf("8. Start the automatic countdown\n");
     printf("Enter your choice: ");
 }
 
@@ -74,6 +75,19 @@ void automatic_clock(Clock_t *cloc) {
         display_binary(cloc);
 
         increment_time(cloc);
+
+        sleep(1);
+    }
+}
+
+void automatic_countdown(Clock_t *cloc) {
+    clear_screen();
+    while (cloc->hours != 0 || cloc->minutes != 0 || cloc->seconds != 0) {
+        move_cursor_to_position(1, 1);
+        display_time(cloc);
+        display_binary(cloc);
+
+        decrement_time(cloc);
 
         sleep(1);
     }
@@ -151,6 +165,10 @@ int main() {
 
             case 7:
                 automatic_clock(&myClock);
+                break;
+            
+            case 8:
+                automatic_countdown(&myClock);
                 break;
 
             default:
